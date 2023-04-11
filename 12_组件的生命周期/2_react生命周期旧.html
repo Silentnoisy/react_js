@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      class Count extends React.Component {
+        // 构造器函数
+        constructor() {
+          console.log("Count -- constructor");
+          super();
+        }
+
+        // 初始化状态
+        state = { count: 1 };
+
+        add = () => {
+          const { count } = this.state;
+          this.setState({ count: count + 1 });
+        };
+
+        death = () => {
+          ReactDOM.unmountComponentAtNode(document.getElementById("root"));
+        };
+
+        force = () => {
+          this.forceUpdate();
+        };
+
+        // 组件即将挂载
+        componentWillMount() {
+          console.log("Count -- componentWillMount");
+        }
+
+        // 组件挂载完毕
+        componentDidMount() {
+          console.log("Count -- componentDidMount");
+        }
+
+        // 组件即将卸载
+        componentWillUnmount() {
+          console.log("Count -- componentWillUnmount");
+        }
+
+        // 控制组件更新阀门
+        shouldComponentUpdate() {
+          console.log("Count -- shouldComponentUpdate");
+          return true;
+
+          [1, 2].map(c => c + 1);
+        }
+
+        // 组件将要更新
+        componentWillUpdate() {
+          console.log("Count -- componentWillUpdate");
+        }
+
+        // 组件更新完毕
+        componentDidUpdate() {
+          console.log("Count -- componentDidUpdate");
+        }
+
+        // 渲染
+        render() {
+          console.log("Count -- render");
+          return (
+            <div>
+              <h2>{this.state.count}</h2>
+              <button onClick={this.add}>click +1</button>
+              <button onClick={this.death}>unmount</button>
+              <button onClick={this.force}>强制更新</button>
+            </div>
+          );
+        }
+      }
+      // ReactDOM.render(<Count />, document.getElementById("root"));
+
+      class A extends React.Component {
+        state = { carName: "宝马" };
+
+        changeCar = () => {
+          this.setState({ carName: "奥迪" });
+        };
+        render() {
+          return (
+            <div>
+              <div>A</div>
+              <button onClick={this.changeCar}>换车</button>
+              <B carName="宝马" />
+            </div>
+          );
+        }
+      }
+
+      class B extends React.Component {
+        componentWillReceiveProps() {
+          console.log("Count -- componentWillReceiveProps");
+        }
+
+        // 组件即将挂载
+        componentWillMount() {
+          console.log("Count -- componentWillMount");
+        }
+
+        // 组件挂载完毕
+        componentDidMount() {
+          console.log("Count -- componentDidMount");
+        }
+
+        // 组件即将卸载
+        componentWillUnmount() {
+          console.log("Count -- componentWillUnmount");
+        }
+
+        // 控制组件更新阀门
+        shouldComponentUpdate() {
+          console.log("Count -- shouldComponentUpdate");
+          return true;
+        }
+
+        // 组件将要更新
+        componentWillUpdate() {
+          console.log("Count -- componentWillUpdate");
+        }
+
+        // 组件更新完毕
+        componentDidUpdate() {
+          console.log("Count -- componentDidUpdate");
+        }
+
+        render() {
+          console.log("Count -- render");
+          return (
+            <div>
+              <div>B， {this.props.carName}</div>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<A />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

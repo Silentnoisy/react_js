@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .list {
+        background-color: aquamarine;
+        height: 300px;
+        width: 200px;
+        overflow: auto;
+      }
+      .item {
+        line-height: 50px;
+        height: 50px;
+        border-bottom: 1px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../jsNew/react.development.js"></script>
+    <script src="../jsNew/react-dom.development.js"></script>
+    <script src="../jsNew/babel.min.js"></script>
+    <script src="../jsNew/prop-types.js"></script>
+    <script type="text/babel">
+      class NewsList extends React.Component {
+        // 初始化状态
+        state = { newsArr: [] };
+
+        // 组件挂载完毕
+        componentDidMount() {
+          console.log("Count -- componentDidMount");
+          setInterval(() => {
+            const { newsArr } = this.state;
+            const news = "新闻" + (newsArr.length + 1);
+            this.setState({ newsArr: [news, ...newsArr] });
+          }, 1000);
+        }
+
+        // 控制组件更新阀门
+        shouldComponentUpdate() {
+          console.log("Count -- shouldComponentUpdate");
+          return true;
+        }
+
+        getSnapshotBeforeUpdate(prevProps, prevState) {
+          console.log("Count -- getSnapshotBeforeUpdate", prevProps, prevState);
+          return this.refs.list.scrollHeight;
+        }
+
+        // 组件更新完毕
+        componentDidUpdate(prevProps, prevState, height) {
+          console.log("Count -- componentDidUpdate", prevProps, prevState, height);
+          this.refs.list.scrollTop += this.refs.list.scrollHeight - height;
+        }
+
+        // 渲染
+        render() {
+          console.log("Count -- render");
+          const { newsArr } = this.state;
+          return (
+            <div ref="list" className="list">
+              {newsArr.map((item, index) => {
+                return (
+                  <div className="item" key={index}>
+                    {item}
+                  </div>
+                );
+              })}
+            </div>
+          );
+        }
+      }
+      // ReactDOM.render(<NewsList />, document.getElementById("root"));
+      const domContainer = document.querySelector("#root");
+      const root = ReactDOM.createRoot(domContainer);
+      root.render(<NewsList />);
+    </script>
+  </body>
+</html>

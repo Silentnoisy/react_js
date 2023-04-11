@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+
+    <script type="text/babel">
+      class Demo extends React.Component {
+        state = {
+          username: "",
+          password: "",
+        };
+
+        handleSubmit = (event) => {
+          event.preventDefault();
+          const { username, password } = this.state;
+          alert(`${username}, ${password}`);
+        };
+
+        saveFormData = (dataType, event) => {
+          this.setState({ [dataType]: event.target.value });
+          console.log(dataType, event.target.value);
+        };
+
+        render() {
+          const { isHot } = this.state;
+          return (
+            <form onSubmit={this.handleSubmit}>
+              账号
+              <input
+                onChange={event => this.saveFormData("username", event)}
+                type="text"
+                name="username"
+              />
+              密码
+              <input
+                onChange={event => this.saveFormData("password", event)}
+                type="text"
+                name="password"
+              />
+              <button>Submit</button>
+            </form>
+          );
+        }
+      }
+      ReactDOM.render(<Demo />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
